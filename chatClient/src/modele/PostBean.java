@@ -3,6 +3,7 @@ package modele;
 import java.sql.Date;
 
 public class PostBean {
+	private UserBean user;
 	private String contenu;
 	private Date heure;
 
@@ -20,6 +21,14 @@ public class PostBean {
 
 	public void setHeure(Date heure) {
 		this.heure = heure;
+	}
+
+	public UserBean getUser() {
+		return user;
+	}
+
+	public void setUser(UserBean user) {
+		this.user = user;
 	}
 
 }
