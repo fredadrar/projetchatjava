@@ -3,9 +3,17 @@ package controler;
 import modele.PostBean;
 
 public class Controler {
-	public Ihm ihm;
+	private Ihm ihm;
 
-	public void refreshSreen() {
+	private void refreshSreen() {
+		boolean pseudoLabelVisible = true;
+		boolean pseudoBarreVisible = true;
+		boolean pseudoBtnVisible = true;
+		boolean chatWindowVisible = false;
+		boolean userListVisible = false;
+		boolean inputBarreVisible = false;
+		boolean btnRefreshVisible = false;
+		boolean btnSendVisible = false;
 
 	}
 
