@@ -12,12 +12,15 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
+import dao.ErrorBean;
 import dao.PostBean;
 import dao.UserBean;
 import modele.BddAccess;
 
 @Path("/WebService")
 public class WebService {
+
+	public static final Gson gson = new Gson();
 
 	// http://localhost:8080/chatServeur/rest/WebService/helloWorld
 	@Path("/helloWorld")
@@ -35,16 +38,26 @@ public class WebService {
 	@Consumes(MediaType.APPLICATION_JSON)
 
 	public Response sendPost(String jsonMessage) {
-		Gson gson = new Gson();
+
 		PostBean message = gson.fromJson(jsonMessage, PostBean.class);
 
-		BddAccess.savePost(message);
-		return Response.status(200).build();
+		try {
+			CheckUtils.checkPost(message);
+			BddAccess.savePost(message);
+			return Response.status(200).build();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ErrorBean errorBean = new ErrorBean(e.getMessage());
+			return Response.status(253).entity(gson.toJson(errorBean)).build();
+
+		}
+
 	}
 
 	// Récupérer les messages de la base :
 	// http://localhost:8080/chatServeur/rest/WebService/getPosts
-	@POST
+	@GET
 	@Path("/getPosts")
 	@Produces(MediaType.APPLICATION_JSON)
 
@@ -70,7 +83,7 @@ public class WebService {
 
 	// Récupérer les users de la base :
 	// http://localhost:8080/chatServeur/rest/WebService/getUsers
-	@POST
+	@GET
 	@Path("/getUsers")
 	@Produces(MediaType.APPLICATION_JSON)
 
